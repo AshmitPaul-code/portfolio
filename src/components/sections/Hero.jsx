@@ -4,10 +4,10 @@ import DocLayer from "../ui/DocLayer";
 import { c, mono, serif } from "../../data/theme";
 
 const WORDS = [
-  "AI-driven",
-  "intelligent",
-  "full-stack",
-  "scalable",
+  "Tech-driven",
+  "AI-powered",
+  "Problem-solving",
+  "Scalable",
 ];
 
 export default function Hero() {
@@ -59,26 +59,26 @@ export default function Hero() {
       {!reduced && (
         <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 1, display: "flex", justifyContent: "center" }}>
           <div style={{ position: "relative", width: "100%", maxWidth: 1080, height: "100%" }}>
-            <DocLayer mx={smx} my={smy} depth={22} rotate={-6} imageSrc="/project_images/ezy.webp" box={{ width: isMobile ? 180 : 260, height: isMobile ? 120 : 170, top: isMobile ? "58%" : "14%", right: isMobile ? "2%" : "0%" }} />
-            <DocLayer mx={smx} my={smy} depth={14} rotate={4} imageSrc="/project_images/qra.webp" box={{ width: isMobile ? 160 : 240, height: isMobile ? 100 : 150, top: isMobile ? "61%" : "25%", right: isMobile ? "48%" : "10%" }} />
-            <DocLayer mx={smx} my={smy} depth={30} rotate={9} imageSrc="/project_images/sers.webp" box={{ width: isMobile ? 150 : 220, height: isMobile ? 95 : 140, top: isMobile ? "69%" : "34%", right: isMobile ? "-5%" : "-8%", opacity: 0.85 }} />
+            <DocLayer mx={smx} my={smy} depth={22} rotate={-6} imageSrc="./project_images/restaurant.png" box={{ width: isMobile ? 180 : 260, height: isMobile ? 120 : 170, top: isMobile ? "58%" : "14%", right: isMobile ? "2%" : "0%" }} />
+            <DocLayer mx={smx} my={smy} depth={14} rotate={4} imageSrc="./project_images/rock_paper_scissors.png" box={{ width: isMobile ? 160 : 240, height: isMobile ? 100 : 150, top: isMobile ? "61%" : "25%", right: isMobile ? "48%" : "10%" }} />
+            <DocLayer mx={smx} my={smy} depth={30} rotate={9} imageSrc="./project_images/blood_donation.png" box={{ width: isMobile ? 150 : 220, height: isMobile ? 95 : 140, top: isMobile ? "69%" : "34%", right: isMobile ? "-5%" : "-8%", opacity: 0.85 }} />
           </div>
         </div>
       )}
 
       <div style={{ position: "relative", zIndex: 10, maxWidth: 1080, margin: "0 auto", width: "100%" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: "40px", alignItems: "center" }} className="kk-grid-collapse">
+        <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 64, alignItems: "center" }} className="kk-grid-collapse">
           <div>
             <div style={{ ...mono, display: "flex", alignItems: "center", gap: 10, fontSize: 12, letterSpacing: 2, textTransform: "uppercase", color: c.clay, marginBottom: 26 }}>
               <span style={{ width: 26, height: 1, background: c.clay }} />
-              Full Stack Developer — AI Engineer in progress
+              BCA Student & Aspiring Software Developer
             </div>
 
             <h1 style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 600, letterSpacing: "-0.03em", lineHeight: 1.05, fontSize: "clamp(32px, 5vw, 62px)", maxWidth: 750, color: c.ink }}>
-              Keshav Kashyap<br />
+              Ashmit Paul<br />
               <span style={{ whiteSpace: "nowrap" }}>
                 Building,{" "}
-                <span style={{ display: "inline-block", width: "6.8em", position: "relative", verticalAlign: "bottom" }}>
+                <span style={{ display: "inline-block", width: "8.5em", position: "relative", verticalAlign: "bottom" }}>
                   <AnimatePresence>
                     <motion.span
                       key={wordIndex}
@@ -97,13 +97,13 @@ export default function Hero() {
             </h1>
 
             <p style={{ marginTop: 26, fontSize: 18, color: c.inkSoft, maxWidth: 560, lineHeight: 1.6 }}>
-              I'm a Full Stack Software Engineer passionate about building high-performance web applications. Currently exploring AI and machine learning to build smarter products.
+              I’m a BCA student passionate about software development, web technologies, and building practical projects. I’m continuously learning and improving my skills to become a skilled software developer.
             </p>
 
             <div style={{ marginTop: 32 }}>
               <a
-                href="/keshav_software_eng_new.pdf"
-                download="Keshav_Kashyap_Resume.pdf"
+                href="./Ashmit_Paul_Resume.pdf"
+                download="Ashmit_Paul_Resume.pdf"
                 style={{
                   ...mono,
                   textDecoration: "none",
@@ -145,7 +145,7 @@ export default function Hero() {
             </div>
 
             <div style={{ marginTop: 40, display: "flex", gap: 24, flexWrap: "wrap", paddingTop: 16 }}>
-              {[["7th", "Semester, Integrated MCA"], ["80K+", "YouTube subscribers"], ["8+", "Shipped projects"]].map(([num, label]) => (
+              {[["3rd", "Semester"], ["9.0", "CGPA"], ["3", "Projects"]].map(([num, label]) => (
                 <div key={label} style={{ background: "rgba(255,255,255,0.4)", border: `1px solid ${c.line}`, padding: "20px 24px", borderRadius: 16, backdropFilter: "blur(10px)", flex: "1 1 140px" }}>
                   <div style={{ ...serif, fontStyle: "italic", fontSize: 32, color: c.mossDeep, marginBottom: 4 }}>{num}</div>
                   <div style={{ ...mono, fontSize: 11, letterSpacing: 1, textTransform: "uppercase", color: c.inkSoft, lineHeight: 1.4 }}>{label}</div>
@@ -154,15 +154,23 @@ export default function Hero() {
             </div>
           </div>
 
-          <div style={{ position: "relative", display: "flex", justifyContent: "center", pointerEvents: "none" }}>
+          <div style={{ position: "relative", display: "flex", justifyContent: "center", alignItems: "center" }}>
             <img
-              src="/keshav.webp"
-              alt="Keshav Kashyap"
+              src="./ashmit.png"
+              alt="Ashmit Paul"
               draggable="false"
               loading="eager"
               fetchPriority="high"
               decoding="async"
-              style={{ width: "100%", maxWidth: 360, borderRadius: 24, userSelect: "none", pointerEvents: "none", WebkitMaskImage: "linear-gradient(to bottom, black 70%, transparent 100%)", maskImage: "linear-gradient(to bottom, black 70%, transparent 100%)" }}
+              style={{
+                width: "100%",
+                maxWidth: 420,
+                height: "auto",
+                objectFit: "contain",
+                display: "block",
+                userSelect: "none",
+                pointerEvents: "none",
+              }}
             />
           </div>
         </div>

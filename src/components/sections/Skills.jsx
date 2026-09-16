@@ -10,21 +10,21 @@ const containerVariants = {
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.08
+      staggerChildren: 0.048
     }
   }
 };
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 30, scale: 0.98 },
+  hidden: { opacity: 0, y: 22, scale: 0.98 },
   show: { 
     opacity: 1, 
     y: 0, 
     scale: 1,
     transition: { 
       type: "spring", 
-      stiffness: 80, 
-      damping: 14 
+      stiffness: 150, 
+      damping: 16 
     } 
   }
 };
@@ -34,22 +34,22 @@ const tagContainerVariants = {
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.04,
-      delayChildren: 0.15
+      staggerChildren: 0.024,
+      delayChildren: 0.09
     }
   }
 };
 
 const tagVariants = {
-  hidden: { opacity: 0, y: 8, scale: 0.9 },
+  hidden: { opacity: 0, y: 6, scale: 0.92 },
   show: { 
     opacity: 1, 
     y: 0, 
     scale: 1,
     transition: { 
       type: "spring", 
-      stiffness: 120, 
-      damping: 10 
+      stiffness: 220, 
+      damping: 14 
     } 
   }
 };

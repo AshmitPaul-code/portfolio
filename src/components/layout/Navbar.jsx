@@ -143,7 +143,7 @@ export default function Navbar() {
         <div className="kk-navbar-inner">
           {/* Logo */}
           <a href="#" className="kk-logo" style={{ ...mono }}>
-            KK
+            AP
           </a>
 
           {/* Navigation Links */}

@@ -10,7 +10,6 @@ import Projects from "../components/sections/Projects";
 import Skills from "../components/sections/Skills";
 import Playground from "../components/sections/Playground";
 import Contact from "../components/sections/Contact";
-import PeerReviews from "../components/sections/PeerReviews";
 import FloatingSkills from "../components/ui/FloatingSkills";
 import ImagesBadgeDemoTwo from "../components/images-badge-demo-2";
 import { gsap } from "gsap";
@@ -214,11 +213,6 @@ export default function Portfolio() {
             onPlacedChange={handlePlacedChange}
             onGameStateChange={handleGameStateChange}
           />
-        </div>
-
-        {/* PeerReviews section (zIndex: 5 - swarm floats behind with backdrop blur) */}
-        <div style={{ position: "relative", zIndex: 5 }}>
-          <PeerReviews />
         </div>
 
         {/* Contact & Footer (zIndex: 5 - swarm floats behind) */}
