@@ -166,8 +166,8 @@ export default function Hero() {
                 borderRadius: 24,
                 userSelect: "none",
                 pointerEvents: "none",
-                WebkitMaskImage: "linear-gradient(to bottom, black 75%, transparent 100%)",
-                maskImage: "linear-gradient(to bottom, black 75%, transparent 100%)",
+                WebkitMaskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
+                maskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
               }}
             />
           </div>
