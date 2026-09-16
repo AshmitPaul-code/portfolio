@@ -152,7 +152,7 @@ export default function Hero() {
             </div>
           </div>
 
-          <div style={{ position: "relative", display: "flex", justifyContent: "center", pointerEvents: "none" }}>
+          <div style={{ position: "relative", display: "flex", justifyContent: "center", pointerEvents: "none", marginTop: isMobile ? 0 : 38 }}>
             <img
               src="./ashmit.png"
               alt="Ashmit Paul"
@@ -162,12 +162,12 @@ export default function Hero() {
               decoding="async"
               style={{
                 width: "100%",
-                maxWidth: 380,
+                maxWidth: 365,
                 borderRadius: 24,
                 userSelect: "none",
                 pointerEvents: "none",
-                WebkitMaskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
-                maskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
+                WebkitMaskImage: "linear-gradient(to bottom, black 85%, transparent 100%)",
+                maskImage: "linear-gradient(to bottom, black 85%, transparent 100%)",
               }}
             />
           </div>
