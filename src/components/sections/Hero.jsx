@@ -56,18 +56,16 @@ export default function Hero() {
       onMouseLeave={handleMouseLeave}
       style={{ position: "relative", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "100px 32px 60px", overflow: "hidden" }}
     >
-      {!reduced && (
-        <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 1, display: "flex", justifyContent: "center" }}>
-          <div style={{ position: "relative", width: "100%", maxWidth: 1080, height: "100%" }}>
-            <DocLayer mx={smx} my={smy} depth={22} rotate={-6} imageSrc="./project_images/restaurant.png" box={{ width: isMobile ? 180 : 260, height: isMobile ? 120 : 170, top: isMobile ? "58%" : "14%", right: isMobile ? "2%" : "0%" }} />
-            <DocLayer mx={smx} my={smy} depth={14} rotate={4} imageSrc="./project_images/rock_paper_scissors.png" box={{ width: isMobile ? 160 : 240, height: isMobile ? 100 : 150, top: isMobile ? "61%" : "25%", right: isMobile ? "48%" : "10%" }} />
-            <DocLayer mx={smx} my={smy} depth={30} rotate={9} imageSrc="./project_images/blood_donation.png" box={{ width: isMobile ? 150 : 220, height: isMobile ? 95 : 140, top: isMobile ? "69%" : "34%", right: isMobile ? "-5%" : "-8%", opacity: 0.85 }} />
-          </div>
+      <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 1, display: "flex", justifyContent: "center" }}>
+        <div style={{ position: "relative", width: "100%", maxWidth: 1080, height: "100%" }}>
+          <DocLayer mx={smx} my={smy} depth={22} rotate={-6} imageSrc="./project_images/restaurant.png" box={{ width: isMobile ? 180 : 260, height: isMobile ? 120 : 170, top: isMobile ? "58%" : "14%", right: isMobile ? "2%" : "0%" }} />
+          <DocLayer mx={smx} my={smy} depth={14} rotate={4} imageSrc="./project_images/rock_paper_scissors.png" box={{ width: isMobile ? 160 : 240, height: isMobile ? 100 : 150, top: isMobile ? "61%" : "25%", right: isMobile ? "48%" : "10%" }} />
+          <DocLayer mx={smx} my={smy} depth={30} rotate={9} imageSrc="./project_images/blood_donation.png" box={{ width: isMobile ? 150 : 220, height: isMobile ? 95 : 140, top: isMobile ? "69%" : "34%", right: isMobile ? "-5%" : "-8%", opacity: 0.85 }} />
         </div>
-      )}
+      </div>
 
       <div style={{ position: "relative", zIndex: 10, maxWidth: 1080, margin: "0 auto", width: "100%" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 64, alignItems: "center" }} className="kk-grid-collapse">
+        <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: "40px", alignItems: "center" }} className="kk-grid-collapse">
           <div>
             <div style={{ ...mono, display: "flex", alignItems: "center", gap: 10, fontSize: 12, letterSpacing: 2, textTransform: "uppercase", color: c.clay, marginBottom: 26 }}>
               <span style={{ width: 26, height: 1, background: c.clay }} />
@@ -154,7 +152,7 @@ export default function Hero() {
             </div>
           </div>
 
-          <div style={{ position: "relative", display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <div style={{ position: "relative", display: "flex", justifyContent: "center", pointerEvents: "none" }}>
             <img
               src="./ashmit.png"
               alt="Ashmit Paul"
@@ -164,12 +162,12 @@ export default function Hero() {
               decoding="async"
               style={{
                 width: "100%",
-                maxWidth: 420,
-                height: "auto",
-                objectFit: "contain",
-                display: "block",
+                maxWidth: 380,
+                borderRadius: 24,
                 userSelect: "none",
                 pointerEvents: "none",
+                WebkitMaskImage: "linear-gradient(to bottom, black 75%, transparent 100%)",
+                maskImage: "linear-gradient(to bottom, black 75%, transparent 100%)",
               }}
             />
           </div>
