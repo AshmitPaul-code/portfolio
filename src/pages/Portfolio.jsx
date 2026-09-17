@@ -182,6 +182,9 @@ export default function Portfolio() {
           .kk-grid-3 {
             grid-template-columns: repeat(2, 1fr) !important;
           }
+          .kk-proj-card {
+            transition: transform .15s ease, box-shadow .15s ease !important;
+          }
         }
         @media (max-width: 520px) {
           .kk-grid-3 {

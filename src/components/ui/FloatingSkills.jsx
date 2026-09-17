@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useMemo } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { skillGroups } from "../../data/portfolioData";
 
-function SwarmIcon({ skill, mouseX, mouseY, isHovering, isDocked, isHidden }) {
+function SwarmIcon({ skill, mouseX, mouseY, isHovering, isDocked, isHidden, isMobile }) {
   const x = useMotionValue(skill.homeX);
   const y = useMotionValue(skill.homeY);
 
@@ -24,8 +24,9 @@ function SwarmIcon({ skill, mouseX, mouseY, isHovering, isDocked, isHidden }) {
         const targetEl = document.getElementById(`skill-tag-${skill.name}`);
         if (targetEl) {
           const rect = targetEl.getBoundingClientRect();
-          x.set(rect.left + rect.width / 2 - skill.size / 2);
-          y.set(rect.top + rect.height / 2 - skill.size / 2);
+          const sz = isMobile ? 36 : skill.size;
+          x.set(rect.left + rect.width / 2 - sz / 2);
+          y.set(rect.top + rect.height / 2 - sz / 2);
         } else {
           x.set(skill.homeX);
           y.set(skill.homeY);
@@ -41,7 +42,9 @@ function SwarmIcon({ skill, mouseX, mouseY, isHovering, isDocked, isHidden }) {
     };
     updatePosition();
     return () => cancelAnimationFrame(animationFrame);
-  }, [mouseX, mouseY, isHovering, isDocked, isHidden, x, y, skill]);
+  }, [mouseX, mouseY, isHovering, isDocked, isHidden, x, y, skill, isMobile]);
+
+  const sz = isMobile ? 36 : skill.size;
 
   return (
     <motion.div
@@ -52,8 +55,8 @@ function SwarmIcon({ skill, mouseX, mouseY, isHovering, isDocked, isHidden }) {
         top: 0,
         x: springX,
         y: springY,
-        width: skill.size,
-        height: skill.size,
+        width: sz,
+        height: sz,
         pointerEvents: "none",
         zIndex: 10
       }}
@@ -63,7 +66,7 @@ function SwarmIcon({ skill, mouseX, mouseY, isHovering, isDocked, isHidden }) {
       }}
       transition={
         isDocked
-          ? { type: "spring", stiffness: 100, damping: 20, layout: { type: "tween", duration: 0 } }
+          ? { type: "spring", stiffness: isMobile ? 170 : 100, damping: isMobile ? 16 : 20, layout: { type: "tween", duration: 0 } }
           : {
             layout: { type: "tween", duration: 0 },
             rotate: { duration: 4 + Math.random() * 3, repeat: Infinity, ease: "easeInOut" },
@@ -86,10 +89,18 @@ function SwarmIcon({ skill, mouseX, mouseY, isHovering, isDocked, isHidden }) {
 }
 
 export default function FloatingSkills({ isDocked, isHidden }) {
+  const [isMobile, setIsMobile] = useState(false);
   const mouseX = useMotionValue(typeof window !== "undefined" ? window.innerWidth / 2 : 0);
   const mouseY = useMotionValue(typeof window !== "undefined" ? window.innerHeight / 2 : 0);
   const [isHovering, setIsHovering] = useState(false);
   const timeoutRef = useRef(null);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 800);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   const skills = useMemo(() => {
     const allSkills = skillGroups.flatMap((group) => group.items);
@@ -135,7 +146,7 @@ export default function FloatingSkills({ isDocked, isHidden }) {
   return (
     <div style={{ position: "fixed", inset: 0, overflow: "hidden", pointerEvents: "none", zIndex: 3 }}>
       {skills.map((s, i) => (
-        <SwarmIcon key={i} skill={s} mouseX={mouseX} mouseY={mouseY} isHovering={isHovering} isDocked={isDocked} />
+        <SwarmIcon key={i} skill={s} mouseX={mouseX} mouseY={mouseY} isHovering={isHovering} isDocked={isDocked} isMobile={isMobile} />
       ))}
     </div>
   );

@@ -54,29 +54,32 @@ export default function Hero() {
       ref={heroRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={{ position: "relative", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "100px 32px 60px", overflow: "hidden" }}
+      style={{ position: "relative", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", padding: isMobile ? "90px 16px 50px" : "100px 32px 60px", overflow: "hidden" }}
     >
-      <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 1, display: "flex", justifyContent: "center" }}>
-        <div style={{ position: "relative", width: "100%", maxWidth: 1080, height: "100%" }}>
-          <DocLayer mx={smx} my={smy} depth={22} rotate={-6} imageSrc="./project_images/restaurant.png" box={{ width: isMobile ? 180 : 260, height: isMobile ? 120 : 170, top: isMobile ? "58%" : "14%", right: isMobile ? "2%" : "0%" }} />
-          <DocLayer mx={smx} my={smy} depth={14} rotate={4} imageSrc="./project_images/rock_paper_scissors.png" box={{ width: isMobile ? 160 : 240, height: isMobile ? 100 : 150, top: isMobile ? "61%" : "25%", right: isMobile ? "48%" : "10%" }} />
-          <DocLayer mx={smx} my={smy} depth={30} rotate={9} imageSrc="./project_images/blood_donation.png" box={{ width: isMobile ? 150 : 220, height: isMobile ? 95 : 140, top: isMobile ? "69%" : "34%", right: isMobile ? "-5%" : "-8%", opacity: 0.85 }} />
+      {/* Desktop Background Project Visuals - 100% Unchanged */}
+      {!isMobile && (
+        <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 1, display: "flex", justifyContent: "center" }}>
+          <div style={{ position: "relative", width: "100%", maxWidth: 1080, height: "100%" }}>
+            <DocLayer mx={smx} my={smy} depth={22} rotate={-6} imageSrc="./project_images/restaurant.png" box={{ width: 260, height: 170, top: "14%", right: "0%" }} />
+            <DocLayer mx={smx} my={smy} depth={14} rotate={4} imageSrc="./project_images/rock_paper_scissors.png" box={{ width: 240, height: 150, top: "25%", right: "10%" }} />
+            <DocLayer mx={smx} my={smy} depth={30} rotate={9} imageSrc="./project_images/blood_donation.png" box={{ width: 220, height: 140, top: "34%", right: "-8%", opacity: 0.85 }} />
+          </div>
         </div>
-      </div>
+      )}
 
       <div style={{ position: "relative", zIndex: 10, maxWidth: 1080, margin: "0 auto", width: "100%" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: "40px", alignItems: "center" }} className="kk-grid-collapse">
+        <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: isMobile ? "32px" : "40px", alignItems: "center" }} className="kk-grid-collapse">
           <div>
-            <div style={{ ...mono, display: "flex", alignItems: "center", gap: 10, fontSize: 12, letterSpacing: 2, textTransform: "uppercase", color: c.clay, marginBottom: 26 }}>
-              <span style={{ width: 26, height: 1, background: c.clay }} />
-              BCA Student & Aspiring Software Developer
+            <div style={{ ...mono, display: "flex", alignItems: "center", gap: isMobile ? 8 : 10, fontSize: isMobile ? 10 : 12, letterSpacing: isMobile ? 1 : 2, textTransform: "uppercase", color: c.clay, marginBottom: isMobile ? 18 : 26 }}>
+              <span style={{ width: isMobile ? 18 : 26, height: 1, background: c.clay, flexShrink: 0 }} />
+              <span>BCA Student & Aspiring Software Developer</span>
             </div>
 
-            <h1 style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 600, letterSpacing: "-0.03em", lineHeight: 1.05, fontSize: "clamp(32px, 5vw, 62px)", maxWidth: 750, color: c.ink }}>
+            <h1 style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 600, letterSpacing: "-0.03em", lineHeight: isMobile ? 1.12 : 1.05, fontSize: "clamp(28px, 5vw, 62px)", maxWidth: 750, color: c.ink }}>
               Ashmit Paul<br />
               <span style={{ whiteSpace: "nowrap" }}>
                 Building,{" "}
-                <span style={{ display: "inline-block", width: "8.5em", position: "relative", verticalAlign: "bottom" }}>
+                <span style={{ display: "inline-block", width: isMobile ? "7.5em" : "8.5em", position: "relative", verticalAlign: "bottom" }}>
                   <AnimatePresence>
                     <motion.span
                       key={wordIndex}
@@ -94,11 +97,11 @@ export default function Hero() {
               systems.
             </h1>
 
-            <p style={{ marginTop: 26, fontSize: 18, color: c.inkSoft, maxWidth: 560, lineHeight: 1.6 }}>
+            <p style={{ marginTop: isMobile ? 18 : 26, fontSize: isMobile ? 16 : 18, color: c.inkSoft, maxWidth: 560, lineHeight: 1.6 }}>
               I’m a BCA student passionate about software development, web technologies, and building practical projects. I’m continuously learning and improving my skills to become a skilled software developer.
             </p>
 
-            <div style={{ marginTop: 32 }}>
+            <div style={{ marginTop: isMobile ? 24 : 32 }}>
               <a
                 href="./Ashmit_Paul_Resume.pdf"
                 download="Ashmit_Paul_Resume.pdf"
@@ -142,17 +145,40 @@ export default function Hero() {
               </a>
             </div>
 
-            <div style={{ marginTop: 40, display: "flex", gap: 24, flexWrap: "wrap", paddingTop: 16 }}>
+            <div style={{
+              marginTop: isMobile ? 24 : 40,
+              display: "grid",
+              gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+              gap: isMobile ? 8 : 24,
+              paddingTop: 16
+            }}>
               {[["3rd", "Semester"], ["9.0", "CGPA"], ["3", "Projects"]].map(([num, label]) => (
-                <div key={label} style={{ background: "rgba(255,255,255,0.4)", border: `1px solid ${c.line}`, padding: "20px 24px", borderRadius: 16, backdropFilter: "blur(10px)", flex: "1 1 140px" }}>
-                  <div style={{ ...serif, fontStyle: "italic", fontSize: 32, color: c.mossDeep, marginBottom: 4 }}>{num}</div>
-                  <div style={{ ...mono, fontSize: 11, letterSpacing: 1, textTransform: "uppercase", color: c.inkSoft, lineHeight: 1.4 }}>{label}</div>
+                <div key={label} style={{
+                  background: "rgba(255,255,255,0.4)",
+                  border: `1px solid ${c.line}`,
+                  padding: isMobile ? "12px 6px" : "20px 24px",
+                  borderRadius: isMobile ? 12 : 16,
+                  backdropFilter: "blur(10px)",
+                  textAlign: isMobile ? "center" : "left",
+                  minWidth: 0
+                }}>
+                  <div style={{ ...serif, fontStyle: "italic", fontSize: isMobile ? 22 : 32, color: c.mossDeep, marginBottom: 4 }}>{num}</div>
+                  <div style={{ ...mono, fontSize: isMobile ? 9 : 11, letterSpacing: isMobile ? 0.5 : 1, textTransform: "uppercase", color: c.inkSoft, lineHeight: 1.3 }}>{label}</div>
                 </div>
               ))}
             </div>
           </div>
 
-          <div style={{ position: "relative", display: "flex", justifyContent: "center", pointerEvents: "none", marginTop: isMobile ? 0 : -45 }}>
+          <div style={{ position: "relative", display: "flex", justifyContent: "center", alignItems: "center", pointerEvents: "none", marginTop: isMobile ? 20 : -45, width: "100%" }}>
+            {/* Mobile Project Visuals: Anchored around portrait container */}
+            {isMobile && (
+              <div style={{ position: "absolute", inset: 0, width: "100%", maxWidth: 350, margin: "0 auto", height: "100%", pointerEvents: "none" }}>
+                <DocLayer mx={smx} my={smy} depth={15} rotate={7} imageSrc="./project_images/restaurant.png" box={{ width: 132, height: 88, top: -14, right: 4, zIndex: 1 }} />
+                <DocLayer mx={smx} my={smy} depth={10} rotate={-7} imageSrc="./project_images/rock_paper_scissors.png" box={{ width: 126, height: 84, top: 12, left: 4, zIndex: 1 }} />
+                <DocLayer mx={smx} my={smy} depth={18} rotate={5} imageSrc="./project_images/blood_donation.png" box={{ width: 120, height: 78, top: 90, right: -4, zIndex: 1, opacity: 0.9 }} />
+              </div>
+            )}
+
             <img
               src="./ashmit.png"
               alt="Ashmit Paul"
@@ -161,8 +187,10 @@ export default function Hero() {
               fetchPriority="high"
               decoding="async"
               style={{
+                position: "relative",
+                zIndex: 2,
                 width: "100%",
-                maxWidth: 415,
+                maxWidth: isMobile ? 320 : 415,
                 borderRadius: 24,
                 userSelect: "none",
                 pointerEvents: "none",

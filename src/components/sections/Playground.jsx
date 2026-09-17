@@ -38,6 +38,7 @@ export default function Playground({ isActive, isHoveringPool, onPlacedChange, o
   const LottiePlayer = Lottie && (Lottie.default || Lottie);
   const animationData = congratulationsAnimation && (congratulationsAnimation.default || congratulationsAnimation);
 
+  const [isMobile, setIsMobile] = useState(false);
   const [placed, setPlaced] = useState({});
   const [skillsDropped, setSkillsDropped] = useState(false);
   const [wrong, setWrong] = useState(null);
@@ -48,6 +49,13 @@ export default function Playground({ isActive, isHoveringPool, onPlacedChange, o
   const [gameState, setGameState] = useState("idle"); // "idle" | "playing" | "won"
   const [timeElapsed, setTimeElapsed] = useState(0);
   const scatterPositionsRef = useRef(generateScatter());
+
+  React.useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 800);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
 
 
@@ -188,11 +196,11 @@ export default function Playground({ isActive, isHoveringPool, onPlacedChange, o
   };
 
   return (
-    <section id="playground" style={{ padding: "100px 0", position: "relative" }}>
-      <div style={{ maxWidth: 1080, margin: "0 auto", padding: "0 32px" }}>
+    <section id="playground" style={{ padding: isMobile ? "70px 0" : "100px 0", position: "relative" }}>
+      <div style={{ maxWidth: 1080, margin: "0 auto", padding: isMobile ? "0 16px" : "0 32px" }}>
         <SectionHead index="05" title="Play" em="ground" />
 
-        <p style={{ ...mono, fontSize: 13, color: c.clay, textAlign: "center", marginBottom: 60 }}>
+        <p style={{ ...mono, fontSize: isMobile ? 11 : 13, color: c.clay, textAlign: "center", marginBottom: isMobile ? 32 : 60, letterSpacing: isMobile ? 1 : 1.5 }}>
           SORT THE SKILLS INTO THEIR CORRECT ARCHITECTURE CATEGORIES
         </p>
 
@@ -205,8 +213,8 @@ export default function Playground({ isActive, isHoveringPool, onPlacedChange, o
           style={{
             background: c.paper,
             border: `1px solid ${c.line}`,
-            borderRadius: 32,
-            padding: "40px 24px",
+            borderRadius: isMobile ? 24 : 32,
+            padding: isMobile ? "20px 12px" : "40px 24px",
             position: "relative",
             boxShadow: "inset 0 4px 20px rgba(0,0,0,0.02), 0 20px 40px rgba(0,0,0,0.05)",
             overflow: "hidden" // Strictly clips anything outside the board
@@ -219,7 +227,7 @@ export default function Playground({ isActive, isHoveringPool, onPlacedChange, o
             {gameState !== "idle" && (
               <motion.div
                 initial={{ height: 0, opacity: 0, marginBottom: 0 }}
-                animate={{ height: "auto", opacity: 1, marginBottom: 32 }}
+                animate={{ height: "auto", opacity: 1, marginBottom: isMobile ? 20 : 32 }}
                 exit={{ height: 0, opacity: 0, marginBottom: 0 }}
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 style={{ overflow: "hidden" }}
@@ -230,31 +238,58 @@ export default function Playground({ isActive, isHoveringPool, onPlacedChange, o
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
-                    marginBottom: 24,
-                    paddingBottom: 16,
+                    marginBottom: isMobile ? 16 : 24,
+                    paddingBottom: isMobile ? 12 : 16,
                     borderBottom: `1px solid ${c.line}`,
-                    gap: 16,
+                    gap: isMobile ? 10 : 16,
                     flexWrap: "wrap"
                   }}>
                     {/* Stopwatch Timer */}
-                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                      <span style={{ ...mono, fontSize: 11, color: c.inkSoft, letterSpacing: 1 }}>TIME:</span>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      <span style={{ ...mono, fontSize: isMobile ? 10 : 11, color: c.inkSoft, letterSpacing: 1 }}>TIME:</span>
                       <span style={{
                         ...mono,
-                        fontSize: 13,
+                        fontSize: isMobile ? 12 : 13,
                         fontWeight: 700,
                         color: c.ink,
                         background: "rgba(0,0,0,0.05)",
-                        padding: "4px 10px",
+                        padding: isMobile ? "3px 8px" : "4px 10px",
                         borderRadius: 8
                       }}>
                         {timeElapsed}s
                       </span>
                     </div>
 
+                    {/* Give Up Button */}
+                    <button
+                      onClick={resetGame}
+                      style={{
+                        order: isMobile ? 2 : 3,
+                        background: "rgba(0,0,0,0.02)",
+                        border: `1px solid ${c.line}`,
+                        padding: isMobile ? "4px 10px" : "6px 14px",
+                        borderRadius: 12,
+                        ...mono,
+                        fontSize: isMobile ? 10 : 11,
+                        color: c.inkSoft,
+                        cursor: "pointer",
+                        transition: "all 0.2s"
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.background = "rgba(0,0,0,0.06)";
+                        e.currentTarget.style.color = c.ink;
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.background = "rgba(0,0,0,0.02)";
+                        e.currentTarget.style.color = c.inkSoft;
+                      }}
+                    >
+                      GIVE UP
+                    </button>
+
                     {/* Progress bar showing items categorized */}
-                    <div style={{ flex: 1, maxWidth: 300, display: "flex", alignItems: "center", gap: 12 }}>
-                      <span style={{ ...mono, fontSize: 11, color: c.inkSoft, letterSpacing: 1 }}>PROGRESS:</span>
+                    <div style={{ flex: isMobile ? "1 1 100%" : 1, order: isMobile ? 3 : 2, maxWidth: isMobile ? "100%" : 300, display: "flex", alignItems: "center", gap: 8 }}>
+                      <span style={{ ...mono, fontSize: 10, color: c.inkSoft, letterSpacing: 1 }}>PROGRESS:</span>
                       <div style={{ flex: 1, height: 6, background: "rgba(0,0,0,0.05)", borderRadius: 3, overflow: "hidden", position: "relative" }}>
                         <motion.div
                           animate={{ width: `${(placedCount / totalSkillsCount) * 100}%` }}
@@ -271,46 +306,28 @@ export default function Playground({ isActive, isHoveringPool, onPlacedChange, o
                       </div>
                       <span style={{
                         ...mono,
-                        fontSize: 13,
+                        fontSize: 12,
                         fontWeight: 700,
                         color: c.ink,
-                        minWidth: 45,
+                        minWidth: 40,
                         textAlign: "right"
                       }}>
                         {placedCount} / {totalSkillsCount}
                       </span>
                     </div>
-
-                    {/* Give Up Button */}
-                    <button
-                      onClick={resetGame}
-                      style={{
-                        background: "rgba(0,0,0,0.02)",
-                        border: `1px solid ${c.line}`,
-                        padding: "6px 14px",
-                        borderRadius: 12,
-                        ...mono,
-                        fontSize: 11,
-                        color: c.inkSoft,
-                        cursor: "pointer",
-                        transition: "all 0.2s"
-                      }}
-                      onMouseOver={(e) => {
-                        e.currentTarget.style.background = "rgba(0,0,0,0.06)";
-                        e.currentTarget.style.color = c.ink;
-                      }}
-                      onMouseOut={(e) => {
-                        e.currentTarget.style.background = "rgba(0,0,0,0.02)";
-                        e.currentTarget.style.color = c.inkSoft;
-                      }}
-                    >
-                      GIVE UP
-                    </button>
                   </div>
                 )}
 
-                {/* Drop Zones (Categories) */}
-                <div style={{ display: "flex", flexWrap: "nowrap", justifyContent: "space-between", gap: 16, overflowX: "auto", paddingBottom: 16 }}>
+                {/* Drop Zones (Categories): 5 columns on desktop, responsive 2-column grid on mobile (No horizontal scroll!) */}
+                <div style={{
+                  display: isMobile ? "grid" : "flex",
+                  gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : undefined,
+                  flexWrap: isMobile ? undefined : "nowrap",
+                  justifyContent: isMobile ? undefined : "space-between",
+                  gap: isMobile ? 10 : 16,
+                  overflowX: isMobile ? "hidden" : "auto",
+                  paddingBottom: isMobile ? 8 : 16
+                }}>
                   {CATEGORIES.map((cat) => {
                     const bucketSkills = placed[cat.id] || [];
                     const isFilled = bucketSkills.length > 0;
@@ -320,27 +337,44 @@ export default function Playground({ isActive, isHoveringPool, onPlacedChange, o
                         key={`zone-${cat.id}`}
                         ref={(el) => dropRefs.current[cat.id] = el}
                         style={{
-                          flex: 1,
-                          minWidth: 160,
-                          minHeight: 180,
+                          ...(isMobile ? {
+                            minWidth: 0,
+                            minHeight: 95,
+                            borderRadius: 16,
+                            padding: "10px 8px",
+                            gridColumn: cat.id === "ai" ? "1 / -1" : "auto"
+                          } : {
+                            flex: 1,
+                            minWidth: 160,
+                            minHeight: 180,
+                            borderRadius: 24,
+                            padding: 16
+                          }),
                           border: isFilled ? `2px solid ${c.moss}` : `2px dashed ${c.lineStrong}`,
-                          borderRadius: 24,
                           display: "flex",
                           flexDirection: "column",
                           alignItems: "center",
                           background: isFilled ? "rgba(255,255,255,0.8)" : "transparent",
                           transition: "all 0.3s ease",
                           position: "relative",
-                          padding: 16,
                           zIndex: 5
                         }}
                       >
-                        <div style={{ ...mono, color: isFilled ? c.ink : c.inkFaint, fontSize: 11, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16, fontWeight: isFilled ? 700 : 400, textAlign: "center" }}>
+                        <div style={{
+                          ...mono,
+                          color: isFilled ? c.ink : c.inkFaint,
+                          fontSize: isMobile ? 10 : 11,
+                          letterSpacing: 1,
+                          textTransform: "uppercase",
+                          marginBottom: isMobile ? 8 : 16,
+                          fontWeight: isFilled ? 700 : 400,
+                          textAlign: "center"
+                        }}>
                           {cat.label}
                         </div>
 
                         {/* Placed Skills stack neatly inside this bucket */}
-                        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center" }}>
+                        <div style={{ display: "flex", flexWrap: "wrap", gap: isMobile ? 6 : 8, justifyContent: "center" }}>
                           <AnimatePresence>
                             {bucketSkills.map(skillName => {
                               const skill = allSkills.find(s => s.name === skillName);
@@ -361,8 +395,8 @@ export default function Playground({ isActive, isHoveringPool, onPlacedChange, o
                                     alt={skill.name}
                                     draggable="false"
                                     style={{
-                                      width: 24,
-                                      height: 24,
+                                      width: isMobile ? 20 : 24,
+                                      height: isMobile ? 20 : 24,
                                       borderRadius: "20%",
                                       objectFit: "contain",
                                       pointerEvents: "none",
@@ -380,13 +414,13 @@ export default function Playground({ isActive, isHoveringPool, onPlacedChange, o
                 </div>
 
                 {/* Divider between Zones and Pool */}
-                <div style={{ height: 1, background: c.line, margin: "24px 0 0 0", opacity: 0.5 }}></div>
+                <div style={{ height: 1, background: c.line, margin: isMobile ? "16px 0 0 0" : "24px 0 0 0", opacity: 0.5 }}></div>
               </motion.div>
             )}
           </AnimatePresence>
 
           {/* Bottom Half: The Pool of Draggable Icons */}
-          <div style={{ position: "relative", height: 250 }}>
+          <div style={{ position: "relative", height: isMobile ? 210 : 250 }}>
             <div style={{ position: "absolute", top: -16, left: "50%", transform: "translateX(-50%)", ...mono, fontSize: 10, color: c.inkFaint, letterSpacing: 2 }}>
               SKILL POOL
             </div>
@@ -513,8 +547,8 @@ export default function Playground({ isActive, isHoveringPool, onPlacedChange, o
                   scale: skillsDropped ? 1 : 0.5,
                   filter: "none",
                   transition: {
-                    delay: skillsDropped ? index * 0.025 : 0,
-                    duration: 0.8,
+                    delay: skillsDropped ? index * (isMobile ? 0.015 : 0.025) : 0,
+                    duration: isMobile ? 0.5 : 0.8,
                     type: "spring",
                     bounce: 0.3
                   }
@@ -541,7 +575,7 @@ export default function Playground({ isActive, isHoveringPool, onPlacedChange, o
                     animate={isWrong ? wrongAnimate : restAnimate}
                     whileDrag={{ scale: 1.2, rotate: 0, cursor: "grabbing", zIndex: 99 }}
                     style={{
-                      padding: 20,
+                      padding: isMobile ? 8 : 20,
                       position: "absolute",
                       left: `${scatter.left}%`,
                       top: `${scatter.top}%`,
@@ -559,8 +593,8 @@ export default function Playground({ isActive, isHoveringPool, onPlacedChange, o
                       alt={skill.name}
                       draggable="false"
                       style={{
-                        width: 40,
-                        height: 40,
+                        width: isMobile ? 32 : 40,
+                        height: isMobile ? 32 : 40,
                         borderRadius: "20%",
                         objectFit: "contain",
                         pointerEvents: "none",

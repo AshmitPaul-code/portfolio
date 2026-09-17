@@ -1,66 +1,75 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import SectionHead from "../ui/SectionHead";
 import { c, mono } from "../../data/theme";
 import { skillGroups } from "../../data/portfolioData";
 import { motion } from "framer-motion";
 
-// Framer Motion animation variants
-const containerVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.048
-    }
-  }
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 22, scale: 0.98 },
-  show: { 
-    opacity: 1, 
-    y: 0, 
-    scale: 1,
-    transition: { 
-      type: "spring", 
-      stiffness: 150, 
-      damping: 16 
-    } 
-  }
-};
-
-const tagContainerVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.024,
-      delayChildren: 0.09
-    }
-  }
-};
-
-const tagVariants = {
-  hidden: { opacity: 0, y: 6, scale: 0.92 },
-  show: { 
-    opacity: 1, 
-    y: 0, 
-    scale: 1,
-    transition: { 
-      type: "spring", 
-      stiffness: 220, 
-      damping: 14 
-    } 
-  }
-};
-
 export default function Skills() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 800);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  // Framer Motion animation variants (40% faster only on mobile, desktop untouched)
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: isMobile ? 0.029 : 0.048
+      }
+    }
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 22, scale: 0.98 },
+    show: { 
+      opacity: 1, 
+      y: 0, 
+      scale: 1,
+      transition: { 
+        type: "spring", 
+        stiffness: isMobile ? 240 : 150, 
+        damping: isMobile ? 14 : 16 
+      } 
+    }
+  };
+
+  const tagContainerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: isMobile ? 0.014 : 0.024,
+        delayChildren: isMobile ? 0.05 : 0.09
+      }
+    }
+  };
+
+  const tagVariants = {
+    hidden: { opacity: 0, y: 6, scale: 0.92 },
+    show: { 
+      opacity: 1, 
+      y: 0, 
+      scale: 1,
+      transition: { 
+        type: "spring", 
+        stiffness: isMobile ? 340 : 220, 
+        damping: isMobile ? 12 : 14 
+      } 
+    }
+  };
+
   return (
     <section 
       id="skills" 
-      style={{ padding: "100px 0", background: c.bgDeep, position: "relative" }}
+      style={{ padding: isMobile ? "70px 0" : "100px 0", background: c.bgDeep, position: "relative" }}
     >
-      <div style={{ maxWidth: 1080, margin: "0 auto", padding: "0 32px" }}>
+      <div style={{ maxWidth: 1080, margin: "0 auto", padding: isMobile ? "0 16px" : "0 32px" }}>
         <SectionHead index="04" title="Technical" em="skills" />
         
         {/* Bounding box target used by Portfolio.jsx coordinate tracking */}
@@ -70,7 +79,7 @@ export default function Skills() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.15 }}
-          style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 28, marginTop: 40 }} 
+          style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: isMobile ? 16 : 28, marginTop: isMobile ? 24 : 40 }} 
           className="kk-grid-3"
         >
           {skillGroups.map((g) => (
