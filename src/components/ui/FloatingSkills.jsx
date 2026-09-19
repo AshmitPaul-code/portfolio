@@ -3,46 +3,77 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 import { skillGroups } from "../../data/portfolioData";
 
 function SwarmIcon({ skill, mouseX, mouseY, isHovering, isDocked, isHidden, isMobile }) {
-  const x = useMotionValue(skill.homeX);
-  const y = useMotionValue(skill.homeY);
+  // 1. Cursor/free-float spring: retains 100% untouched original physics (stiffness: 100, damping: 15 + index * 6)
+  //    so cursor-following speed, duration, lag, and responsiveness remain completely identical.
+  const cursorX = useMotionValue(skill.homeX);
+  const cursorY = useMotionValue(skill.homeY);
+  const cursorSpringX = useSpring(cursorX, { stiffness: skill.stiffness, damping: skill.damping });
+  const cursorSpringY = useSpring(cursorY, { stiffness: skill.stiffness, damping: skill.damping });
 
-  const springX = useSpring(x, { stiffness: skill.stiffness, damping: skill.damping });
-  const springY = useSpring(y, { stiffness: skill.stiffness, damping: skill.damping });
+  // 2. Dedicated docking spring: fast & smooth settling specifically for the Skills section entrance
+  const dockX = useMotionValue(skill.homeX);
+  const dockY = useMotionValue(skill.homeY);
+  const dockSpringX = useSpring(dockX, { stiffness: isMobile ? 320 : 260, damping: isMobile ? 28 : 26 });
+  const dockSpringY = useSpring(dockY, { stiffness: isMobile ? 320 : 260, damping: isMobile ? 28 : 26 });
+
+  // Track previous isDocked state for seamless handoff between the two springs
+  const prevDockedRef = useRef(isDocked);
 
   useEffect(() => {
     let animationFrame;
     const updatePosition = () => {
+      // Seamless position handoff when entering or leaving the Skills dock
+      if (isDocked !== prevDockedRef.current) {
+        if (isDocked) {
+          const currentX = cursorSpringX.get();
+          const currentY = cursorSpringY.get();
+          dockX.jump(currentX);
+          dockY.jump(currentY);
+        } else {
+          const currentX = dockSpringX.get();
+          const currentY = dockSpringY.get();
+          cursorX.jump(currentX);
+          cursorY.jump(currentY);
+        }
+        prevDockedRef.current = isDocked;
+      }
+
       if (isHidden) {
         // Fall down off screen!
         const w = typeof window !== 'undefined' ? window.innerWidth : 1200;
         const h = typeof window !== 'undefined' ? window.innerHeight : 800;
-        // Spread them out at the bottom
-        x.set(w * 0.1 + Math.random() * (w * 0.8));
-        y.set(h + 200 + Math.random() * 500);
+        cursorX.set(w * 0.1 + Math.random() * (w * 0.8));
+        cursorY.set(h + 200 + Math.random() * 500);
       } else if (isDocked) {
         // Dock exactly to the center of the placeholder div in Skills.jsx
         const targetEl = document.getElementById(`skill-tag-${skill.name}`);
         if (targetEl) {
           const rect = targetEl.getBoundingClientRect();
           const sz = isMobile ? 36 : skill.size;
-          x.set(rect.left + rect.width / 2 - sz / 2);
-          y.set(rect.top + rect.height / 2 - sz / 2);
+          const targetX = rect.left + rect.width / 2 - sz / 2;
+          const targetY = rect.top + rect.height / 2 - sz / 2;
+          dockX.set(targetX);
+          dockY.set(targetY);
         } else {
-          x.set(skill.homeX);
-          y.set(skill.homeY);
+          dockX.set(skill.homeX);
+          dockY.set(skill.homeY);
         }
       } else if (isHovering) {
-        x.set(mouseX.get() + skill.clusterX);
-        y.set(mouseY.get() + skill.clusterY);
+        cursorX.set(mouseX.get() + skill.clusterX);
+        cursorY.set(mouseY.get() + skill.clusterY);
       } else {
-        x.set(skill.homeX);
-        y.set(skill.homeY);
+        cursorX.set(skill.homeX);
+        cursorY.set(skill.homeY);
       }
+
       animationFrame = requestAnimationFrame(updatePosition);
     };
     updatePosition();
     return () => cancelAnimationFrame(animationFrame);
-  }, [mouseX, mouseY, isHovering, isDocked, isHidden, x, y, skill, isMobile]);
+  }, [mouseX, mouseY, isHovering, isDocked, isHidden, skill, isMobile, cursorX, cursorY, dockX, dockY, cursorSpringX, cursorSpringY, dockSpringX, dockSpringY]);
+
+  const springX = isDocked ? dockSpringX : cursorSpringX;
+  const springY = isDocked ? dockSpringY : cursorSpringY;
 
   const sz = isMobile ? 36 : skill.size;
 
@@ -66,7 +97,7 @@ function SwarmIcon({ skill, mouseX, mouseY, isHovering, isDocked, isHidden, isMo
       }}
       transition={
         isDocked
-          ? { type: "spring", stiffness: isMobile ? 170 : 100, damping: isMobile ? 16 : 20, layout: { type: "tween", duration: 0 } }
+          ? { type: "spring", stiffness: isMobile ? 320 : 260, damping: isMobile ? 28 : 26, opacity: { duration: 0.2 }, layout: { type: "tween", duration: 0 } }
           : {
             layout: { type: "tween", duration: 0 },
             rotate: { duration: 4 + Math.random() * 3, repeat: Infinity, ease: "easeInOut" },
