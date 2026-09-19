@@ -46,10 +46,12 @@ export default function Portfolio() {
       const section = document.getElementById("skills");
       if (section) {
         const rect = section.getBoundingClientRect();
-        setIsHoveringSkills(
+        const isMouseInside = (
           clientX >= rect.left && clientX <= rect.right &&
           clientY >= rect.top && clientY <= rect.bottom
         );
+        const isInViewport = rect.top <= window.innerHeight * 0.65 && rect.bottom >= window.innerHeight * 0.2;
+        setIsHoveringSkills(isMouseInside || (window.innerWidth < 800 && isInViewport));
       } else {
         setIsHoveringSkills(false);
       }

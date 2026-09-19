@@ -112,29 +112,55 @@ export default function Navbar() {
         }
 
         @media (max-width: 650px) {
-          .kk-navlink-skills {
+          .kk-navlink-experience {
             display: none;
+          }
+          .kk-nav-links {
+            gap: 18px;
           }
         }
 
         @media (max-width: 520px) {
           .kk-navbar-inner {
-            padding: 12px 16px;
+            padding: 12px 14px;
             height: 56px;
           }
           .kk-nav-links {
-            gap: 16px;
+            gap: 12px;
           }
-          .kk-navlink-experience {
-            display: none;
+          .kk-navlink {
+            font-size: 11px !important;
+            letter-spacing: 0.5px !important;
           }
           .kk-logo {
-            padding: 4px 8px;
-            font-size: 12px;
+            padding: 4px 6px;
+            font-size: 11px;
           }
           .kk-hire-btn {
-            padding: 6px 12px;
+            padding: 6px 10px;
             font-size: 10px;
+          }
+        }
+
+        @media (max-width: 360px) {
+          .kk-navbar-inner {
+            padding: 10px 8px;
+          }
+          .kk-nav-links {
+            gap: 8px;
+          }
+          .kk-navlink {
+            font-size: 10px !important;
+            letter-spacing: 0px !important;
+          }
+          .kk-logo {
+            padding: 3px 5px;
+            font-size: 10px;
+          }
+          .kk-hire-btn {
+            padding: 5px 8px;
+            font-size: 9px;
+            gap: 4px;
           }
         }
       `}</style>
